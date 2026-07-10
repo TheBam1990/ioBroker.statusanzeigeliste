@@ -408,10 +408,26 @@ class Statusanzeigeliste extends utils.Adapter {
             return;
         }
 
-        if (widgets.includes("tplStatusanzeigelisteList")) return;
-        const block = ["", "<!-- --------------statusanzeigeliste.html--- START -->", widgetHtml, "<!-- --------------statusanzeigeliste.html--- END -->", ""].join("\n");
-        await this.writeFileAsync("vis-2", "widgets.html", `${widgets}${block}`);
-        this.log.info("Registered statusanzeigeliste widget templates in VIS-2 widgets.html");
+        const start = "<!-- --------------statusanzeigeliste.html--- START -->";
+        const end = "<!-- --------------statusanzeigeliste.html--- END -->";
+        const block = ["", start, widgetHtml, end, ""].join("\n");
+        let patched = widgets;
+
+        if (widgets.includes(start) && widgets.includes(end)) {
+            const pattern = new RegExp(`${this.escapeRegExp(start)}[\\s\\S]*?${this.escapeRegExp(end)}`);
+            patched = widgets.replace(pattern, [start, widgetHtml, end].join("\n"));
+        } else if (!widgets.includes("tplStatusanzeigelisteList")) {
+            patched = `${widgets}${block}`;
+        }
+
+        if (patched !== widgets) {
+            await this.writeFileAsync("vis-2", "widgets.html", patched);
+            this.log.info("Registered statusanzeigeliste widget templates in VIS-2 widgets.html");
+        }
+    }
+
+    escapeRegExp(value) {
+        return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
 }
 

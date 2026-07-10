@@ -159,6 +159,14 @@ Diese Klassen kannst du bei Bedarf in VIS ueberschreiben.
 
 - Erste Statusanzeigeliste mit konfigurierbaren Vergleichen und VIS/VIS-2 Widgets.
 
+### 0.1.1
+
+- VIS-Widget-State-Bindung korrigiert, damit der Listenwert angezeigt und aktualisiert wird.
+
+### 0.1.2
+
+- Bereits registrierte VIS-2 Widget-Templates werden beim Adapterstart aktualisiert.
+
 ## Lizenz
 
 MIT

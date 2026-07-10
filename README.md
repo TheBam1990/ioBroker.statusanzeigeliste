@@ -159,6 +159,14 @@ You can override these classes in VIS if you need a project-specific design.
 
 - Initial Statusanzeigeliste adapter with configurable comparisons and VIS/VIS-2 widgets.
 
+### 0.1.1
+
+- Fix VIS widget state binding so the list value is displayed and updated.
+
+### 0.1.2
+
+- Update already registered VIS-2 widget templates during adapter startup.
+
 ## License
 
 MIT

@@ -1,5 +1,22 @@
 <link rel="stylesheet" href="widgets/statusanzeigeliste/statusanzeigeliste.css">
 
+<script>
+    window.statusanzeigelisteUpdateWidgets = window.statusanzeigelisteUpdateWidgets || function () {
+        if (typeof vis === 'undefined' || !vis.states || typeof vis.states.attr !== 'function') return;
+        var nodes = document.querySelectorAll('.statusanzeigeliste-content[data-oid]');
+        for (var i = 0; i < nodes.length; i++) {
+            var node = nodes[i];
+            var oid = String(node.getAttribute('data-oid') || 'statusanzeigeliste.0.html').replace(/\.val$/, '');
+            var emptyText = node.getAttribute('data-empty-text') || '';
+            var value = vis.states.attr(oid + '.val');
+            node.innerHTML = value || emptyText || '';
+        }
+    };
+    window.statusanzeigelisteUpdateTimer = window.statusanzeigelisteUpdateTimer || window.setInterval(window.statusanzeigelisteUpdateWidgets, 1000);
+    window.setTimeout(window.statusanzeigelisteUpdateWidgets, 0);
+    window.setTimeout(window.statusanzeigelisteUpdateWidgets, 250);
+</script>
+
 <script id="tplStatusanzeigelisteList"
         type="text/ejs"
         class="vis-tpl"
@@ -13,8 +30,8 @@
             <% if (data.showTitle === 'true' || data.showTitle === true) { %>
                 <div class="statusanzeigeliste-title"><%= data.title || 'Status' %></div>
             <% } %>
-            <div class="statusanzeigeliste-content">
-                <%== (vis.states && vis.states.attr((data.oid || 'statusanzeigeliste.0.html') + '.val')) || data.emptyText || '' %>
+            <div class="statusanzeigeliste-content" id="<%= this.data.attr('wid') %>_content" data-oid="<%= data.oid || 'statusanzeigeliste.0.html' %>" data-empty-text="<%= data.emptyText || '' %>">
+                <%= data.emptyText || '' %>
             </div>
         </div>
     </div>

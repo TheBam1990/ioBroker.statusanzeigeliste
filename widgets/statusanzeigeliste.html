@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="widgets/statusanzeigeliste/statusanzeigeliste.css">
+
+<script id="tplStatusanzeigelisteList"
+        type="text/ejs"
+        class="vis-tpl"
+        data-vis-prev='<div class="statusanzeigeliste-vis-preview">Statusanzeigeliste</div>'
+        data-vis-set="statusanzeigeliste"
+        data-vis-type="val"
+        data-vis-name="Statusanzeigeliste"
+        data-vis-attrs="oid/id,statusanzeigeliste.0.html;title/text,Status;emptyText/text;showTitle/checkbox,true">
+    <div class="vis-widget <%== this.data.attr('class') %>" id="<%= this.data.attr('wid') %>" style="width:<%= this.data.attr('width') %>;height:<%= this.data.attr('height') %>;">
+        <div class="statusanzeigeliste-widget">
+            <% if (data.showTitle === 'true' || data.showTitle === true) { %>
+                <div class="statusanzeigeliste-title"><%= data.title || 'Status' %></div>
+            <% } %>
+            <div class="statusanzeigeliste-content">
+                <%== (vis.states && vis.states.attr((data.oid || 'statusanzeigeliste.0.html') + '.val')) || data.emptyText || '' %>
+            </div>
+        </div>
+    </div>
+</script>

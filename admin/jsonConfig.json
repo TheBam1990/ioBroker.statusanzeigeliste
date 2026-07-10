@@ -1,0 +1,228 @@
+{
+  "type": "tabs",
+  "i18n": true,
+  "items": {
+    "general": {
+      "type": "panel",
+      "label": {
+        "en": "General",
+        "de": "Allgemein"
+      },
+      "items": {
+        "enabled": {
+          "type": "checkbox",
+          "label": {
+            "en": "Enable status list",
+            "de": "Statusanzeigeliste aktivieren"
+          },
+          "xs": 12,
+          "sm": 6,
+          "md": 4
+        },
+        "includeDate": {
+          "type": "checkbox",
+          "label": {
+            "en": "Show start date before message",
+            "de": "Startdatum vor Meldung anzeigen"
+          },
+          "help": {
+            "en": "If enabled, the date when the message first became active is prepended with a trailing space.",
+            "de": "Wenn aktiv, wird das Datum der ersten Aktivierung mit nachfolgendem Leerzeichen vor die Meldung gesetzt."
+          },
+          "xs": 12,
+          "sm": 6,
+          "md": 4
+        },
+        "includeTime": {
+          "type": "checkbox",
+          "label": {
+            "en": "Show start time before message",
+            "de": "Startzeit vor Meldung anzeigen"
+          },
+          "help": {
+            "en": "If enabled, the time when the message first became active is prepended with a trailing space.",
+            "de": "Wenn aktiv, wird die Uhrzeit der ersten Aktivierung mit nachfolgendem Leerzeichen vor die Meldung gesetzt."
+          },
+          "xs": 12,
+          "sm": 6,
+          "md": 4
+        },
+        "emptyText": {
+          "type": "text",
+          "label": {
+            "en": "Text if no message is active",
+            "de": "Text wenn keine Meldung aktiv ist"
+          },
+          "xs": 12,
+          "sm": 8,
+          "md": 6
+        },
+        "rowClass": {
+          "type": "text",
+          "label": {
+            "en": "CSS class for message rows",
+            "de": "CSS-Klasse fuer Meldungszeilen"
+          },
+          "xs": 12,
+          "sm": 4,
+          "md": 3
+        }
+      }
+    },
+    "rulesTab": {
+      "type": "panel",
+      "label": {
+        "en": "Rules",
+        "de": "Regeln"
+      },
+      "items": {
+        "rules": {
+          "type": "table",
+          "label": {
+            "en": "Status rules",
+            "de": "Status-Regeln"
+          },
+          "import": true,
+          "export": true,
+          "showSecondAddAt": 10,
+          "xs": 12,
+          "sm": 12,
+          "items": [
+            {
+              "attr": "enabled",
+              "type": "checkbox",
+              "title": {
+                "en": "Active",
+                "de": "Aktiv"
+              },
+              "default": true,
+              "width": "70px"
+            },
+            {
+              "attr": "name",
+              "type": "text",
+              "title": {
+                "en": "Name",
+                "de": "Name"
+              },
+              "width": "180px"
+            },
+            {
+              "attr": "sourceId",
+              "type": "objectId",
+              "title": {
+                "en": "Source state",
+                "de": "Quell-Datenpunkt"
+              },
+              "width": "330px"
+            },
+            {
+              "attr": "operator",
+              "type": "select",
+              "title": {
+                "en": "Compare",
+                "de": "Vergleich"
+              },
+              "options": [
+                { "label": "=", "value": "==" },
+                { "label": "!=", "value": "!=" },
+                { "label": ">", "value": ">" },
+                { "label": ">=", "value": ">=" },
+                { "label": "<", "value": "<" },
+                { "label": "<=", "value": "<=" },
+                { "label": "contains", "value": "contains" }
+              ],
+              "default": "==",
+              "width": "120px"
+            },
+            {
+              "attr": "compareMode",
+              "type": "select",
+              "title": {
+                "en": "With",
+                "de": "Mit"
+              },
+              "options": [
+                {
+                  "label": {
+                    "en": "Fixed value",
+                    "de": "Festwert"
+                  },
+                  "value": "constant"
+                },
+                {
+                  "label": {
+                    "en": "Other state",
+                    "de": "Anderer Datenpunkt"
+                  },
+                  "value": "state"
+                }
+              ],
+              "default": "constant",
+              "width": "160px"
+            },
+            {
+              "attr": "compareValue",
+              "type": "text",
+              "title": {
+                "en": "Fixed value",
+                "de": "Festwert"
+              },
+              "width": "170px"
+            },
+            {
+              "attr": "compareStateId",
+              "type": "objectId",
+              "title": {
+                "en": "Compare state",
+                "de": "Vergleichs-Datenpunkt"
+              },
+              "width": "330px"
+            },
+            {
+              "attr": "valueType",
+              "type": "select",
+              "title": {
+                "en": "Type",
+                "de": "Typ"
+              },
+              "options": [
+                { "label": "auto", "value": "auto" },
+                { "label": "number", "value": "number" },
+                { "label": "boolean", "value": "boolean" },
+                { "label": "string", "value": "string" }
+              ],
+              "default": "auto",
+              "width": "130px"
+            },
+            {
+              "attr": "severity",
+              "type": "select",
+              "title": {
+                "en": "Severity",
+                "de": "Prioritaet"
+              },
+              "options": [
+                { "label": "info", "value": "info" },
+                { "label": "warning", "value": "warning" },
+                { "label": "error", "value": "error" },
+                { "label": "ok", "value": "ok" }
+              ],
+              "default": "info",
+              "width": "130px"
+            },
+            {
+              "attr": "text",
+              "type": "text",
+              "title": {
+                "en": "Message text",
+                "de": "Meldungstext"
+              },
+              "width": "360px"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

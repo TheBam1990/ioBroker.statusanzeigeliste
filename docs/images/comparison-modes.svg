@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320">
+  <rect width="900" height="320" rx="16" fill="#f7fbff"/>
+  <text x="40" y="45" font-family="Arial" font-size="24" font-weight="700" fill="#17202a">Comparison modes</text>
+  <rect x="50" y="85" width="360" height="170" rx="12" fill="#ffffff" stroke="#cbd5df"/>
+  <text x="78" y="125" font-family="Arial" font-size="20" font-weight="700" fill="#17202a">Fixed value</text>
+  <text x="78" y="160" font-family="Arial" font-size="16" fill="#52616f">battery.voltage &lt; 48</text>
+  <text x="78" y="190" font-family="Arial" font-size="16" fill="#52616f">door.open = true</text>
+  <text x="78" y="220" font-family="Arial" font-size="16" fill="#52616f">status contains error</text>
+  <rect x="490" y="85" width="360" height="170" rx="12" fill="#ffffff" stroke="#cbd5df"/>
+  <text x="518" y="125" font-family="Arial" font-size="20" font-weight="700" fill="#17202a">Other state</text>
+  <text x="518" y="160" font-family="Arial" font-size="16" fill="#52616f">house.load &gt; pv.production</text>
+  <text x="518" y="190" font-family="Arial" font-size="16" fill="#52616f">tank.level &lt; min.level</text>
+  <text x="518" y="220" font-family="Arial" font-size="16" fill="#52616f">room.temp &gt; target.temp</text>
+</svg>

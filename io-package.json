@@ -1,0 +1,108 @@
+{
+  "common": {
+    "name": "statusanzeigeliste",
+    "version": "0.1.0",
+    "news": {
+      "0.1.0": {
+        "en": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
+        "de": "Erste Statusanzeigeliste mit konfigurierbaren Vergleichen und VIS-Widgets.",
+        "ru": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
+        "pt": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
+        "nl": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
+        "fr": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
+        "it": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
+        "es": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
+        "pl": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
+        "uk": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
+        "zh-cn": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets."
+      }
+    },
+    "titleLang": {
+      "en": "Status Display List",
+      "de": "Statusanzeigeliste",
+      "ru": "Status Display List",
+      "pt": "Status Display List",
+      "nl": "Status Display List",
+      "fr": "Status Display List",
+      "it": "Status Display List",
+      "es": "Status Display List",
+      "pl": "Status Display List",
+      "uk": "Status Display List",
+      "zh-cn": "Status Display List"
+    },
+    "desc": {
+      "en": "Creates a status message list from configurable state comparisons.",
+      "de": "Erzeugt eine Statusmeldeliste aus konfigurierbaren Datenpunkt-Vergleichen.",
+      "ru": "Creates a status message list from configurable state comparisons.",
+      "pt": "Creates a status message list from configurable state comparisons.",
+      "nl": "Creates a status message list from configurable state comparisons.",
+      "fr": "Creates a status message list from configurable state comparisons.",
+      "it": "Creates a status message list from configurable state comparisons.",
+      "es": "Creates a status message list from configurable state comparisons.",
+      "pl": "Creates a status message list from configurable state comparisons.",
+      "uk": "Creates a status message list from configurable state comparisons.",
+      "zh-cn": "Creates a status message list from configurable state comparisons."
+    },
+    "authors": [
+      "TheBam1990"
+    ],
+    "keywords": [
+      "status",
+      "messages",
+      "meldungsliste",
+      "vis",
+      "compare",
+      "alarm"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "statusanzeigeliste.svg",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/TheBam1990/ioBroker.statusanzeigeliste/main/admin/statusanzeigeliste.svg",
+    "readme": "https://github.com/TheBam1990/ioBroker.statusanzeigeliste/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "logic",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "push",
+    "visWidgets": {
+      "statusanzeigeliste": {
+        "name": "statusanzeigeliste"
+      }
+    },
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=5.0.0"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=6.0.0"
+      }
+    ]
+  },
+  "native": {
+    "enabled": true,
+    "includeDate": false,
+    "includeTime": false,
+    "emptyText": "",
+    "rowClass": "statusanzeigeliste-row",
+    "rules": []
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    }
+  ]
+}

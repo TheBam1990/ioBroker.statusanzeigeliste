@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="340" viewBox="0 0 900 340">
+  <rect width="900" height="340" rx="16" fill="#eef3f7"/>
+  <rect x="250" y="45" width="400" height="250" rx="14" fill="#f7fbff" stroke="#cbd5df"/>
+  <text x="280" y="85" font-family="Arial" font-size="22" font-weight="700" fill="#17202a">Status</text>
+  <rect x="280" y="110" width="340" height="46" rx="8" fill="#ffffff" stroke="#dfe7ef"/>
+  <rect x="280" y="110" width="6" height="46" rx="3" fill="#f0b429"/>
+  <text x="300" y="139" font-family="Arial" font-size="15" fill="#17202a">10.07.2026 18:42:03 Battery voltage low</text>
+  <rect x="280" y="168" width="340" height="46" rx="8" fill="#ffffff" stroke="#dfe7ef"/>
+  <rect x="280" y="168" width="6" height="46" rx="3" fill="#d64545"/>
+  <text x="300" y="197" font-family="Arial" font-size="15" fill="#17202a">Door contact open</text>
+  <rect x="280" y="226" width="340" height="46" rx="8" fill="#ffffff" stroke="#dfe7ef"/>
+  <rect x="280" y="226" width="6" height="46" rx="3" fill="#2f80ed"/>
+  <text x="300" y="255" font-family="Arial" font-size="15" fill="#17202a">PV production below house load</text>
+</svg>

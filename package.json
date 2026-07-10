@@ -1,0 +1,51 @@
+{
+  "name": "iobroker.statusanzeigeliste",
+  "version": "0.1.0",
+  "description": "ioBroker adapter for configurable status message lists with VIS widgets",
+  "author": "TheBam1990",
+  "homepage": "https://github.com/TheBam1990/ioBroker.statusanzeigeliste",
+  "license": "MIT",
+  "main": "main.js",
+  "files": [
+    "admin",
+    "docs",
+    "widgets",
+    "www",
+    "io-package.json",
+    "LICENSE",
+    "main.js",
+    "README.md",
+    "README.de.md"
+  ],
+  "keywords": [
+    "iobroker",
+    "status",
+    "messages",
+    "vis",
+    "alarm",
+    "compare"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheBam1990/ioBroker.statusanzeigeliste.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@iobroker/adapter-core": "^3.4.1"
+  },
+  "devDependencies": {
+    "@iobroker/testing": "^5.2.2",
+    "@types/node": "^22.18.0"
+  },
+  "scripts": {
+    "start": "node main.js",
+    "test": "node --check main.js",
+    "test:package": "node --check main.js"
+  },
+  "bugs": {
+    "url": "https://github.com/TheBam1990/ioBroker.statusanzeigeliste/issues"
+  },
+  "readmeFilename": "README.md"
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Statusanzeigeliste">
+  <rect width="96" height="96" rx="18" fill="#17202a"/>
+  <rect x="16" y="18" width="64" height="60" rx="8" fill="#f7fbff"/>
+  <circle cx="30" cy="34" r="5" fill="#1f9d55"/>
+  <rect x="42" y="30" width="24" height="8" rx="4" fill="#52616f"/>
+  <circle cx="30" cy="48" r="5" fill="#f0b429"/>
+  <rect x="42" y="44" width="34" height="8" rx="4" fill="#52616f"/>
+  <circle cx="30" cy="62" r="5" fill="#d64545"/>
+  <rect x="42" y="58" width="28" height="8" rx="4" fill="#52616f"/>
+</svg>

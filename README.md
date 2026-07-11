@@ -120,17 +120,17 @@ If both date and time are enabled, the output looks like:
 
 The adapter ships with a widget set named `statusanzeigeliste`.
 
-The default widget reads:
+The default widget reads the plain text output state:
 
 ```text
-statusanzeigeliste.0.html
+statusanzeigeliste.0.text
 ```
 
 In VIS/VIS-2 you can add the widget and optionally change:
 
 | Widget option | Meaning |
 | --- | --- |
-| `oid` | HTML state to display. Default: `statusanzeigeliste.0.html`. |
+| `oid` | State to display. Default: `statusanzeigeliste.0.text`. Plain text is rendered line by line; HTML states such as `statusanzeigeliste.0.html` are inserted as HTML. |
 | `title` | Widget title. |
 | `showTitle` | Shows or hides the title row. |
 | `emptyText` | Fallback text if the selected state is empty. |
@@ -166,6 +166,11 @@ You can override these classes in VIS if you need a project-specific design.
 ### 0.1.2
 
 - Update already registered VIS-2 widget templates during adapter startup.
+
+### 0.1.3
+
+- Make the VIS widget read `statusanzeigeliste.0.text` by default.
+- Render plain text output line by line in the widget.
 
 ## License
 

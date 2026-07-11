@@ -120,17 +120,17 @@ Wenn Datum und Uhrzeit aktiv sind, sieht die Ausgabe so aus:
 
 Der Adapter bringt ein Widget-Set namens `statusanzeigeliste` mit.
 
-Das Standard-Widget liest:
+Das Standard-Widget liest den Klartext-Ausgabestate:
 
 ```text
-statusanzeigeliste.0.html
+statusanzeigeliste.0.text
 ```
 
 In VIS/VIS-2 kannst du das Widget einfuegen und optional anpassen:
 
 | Widget-Option | Bedeutung |
 | --- | --- |
-| `oid` | HTML-State, der angezeigt wird. Standard: `statusanzeigeliste.0.html`. |
+| `oid` | State, der angezeigt wird. Standard: `statusanzeigeliste.0.text`. Klartext wird zeilenweise gerendert; HTML-States wie `statusanzeigeliste.0.html` werden als HTML eingefuegt. |
 | `title` | Titel des Widgets. |
 | `showTitle` | Zeigt oder versteckt die Titelzeile. |
 | `emptyText` | Ersatztext, wenn der ausgewaehlte State leer ist. |
@@ -166,6 +166,11 @@ Diese Klassen kannst du bei Bedarf in VIS ueberschreiben.
 ### 0.1.2
 
 - Bereits registrierte VIS-2 Widget-Templates werden beim Adapterstart aktualisiert.
+
+### 0.1.3
+
+- VIS-Widget liest standardmaessig `statusanzeigeliste.0.text`.
+- Klartext-Ausgabe wird im Widget zeilenweise gerendert.
 
 ## Lizenz
 

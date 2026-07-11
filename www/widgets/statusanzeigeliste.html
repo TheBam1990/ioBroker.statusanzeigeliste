@@ -1,18 +1,41 @@
 <link rel="stylesheet" href="widgets/statusanzeigeliste/statusanzeigeliste.css">
 
 <script>
-    window.statusanzeigelisteUpdateWidgets = window.statusanzeigelisteUpdateWidgets || function () {
+    window.statusanzeigelisteEscapeHtml = function (value) {
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    };
+
+    window.statusanzeigelisteRenderValue = function (value, oid, emptyText) {
+        var text = value === null || value === undefined ? '' : String(value);
+        if (!text) return emptyText || '';
+        if (/\.html$/i.test(String(oid || ''))) return text;
+        return text
+            .split(/\r?\n/)
+            .filter(function (line) { return line !== ''; })
+            .map(function (line) {
+                return '<div class="statusanzeigeliste-row info" data-severity="info">' + window.statusanzeigelisteEscapeHtml(line) + '</div>';
+            })
+            .join('');
+    };
+
+    window.statusanzeigelisteUpdateWidgets = function () {
         if (typeof vis === 'undefined' || !vis.states || typeof vis.states.attr !== 'function') return;
         var nodes = document.querySelectorAll('.statusanzeigeliste-content[data-oid]');
         for (var i = 0; i < nodes.length; i++) {
             var node = nodes[i];
-            var oid = String(node.getAttribute('data-oid') || 'statusanzeigeliste.0.html').replace(/\.val$/, '');
+            var oid = String(node.getAttribute('data-oid') || 'statusanzeigeliste.0.text').replace(/\.val$/, '');
             var emptyText = node.getAttribute('data-empty-text') || '';
             var value = vis.states.attr(oid + '.val');
-            node.innerHTML = value || emptyText || '';
+            node.innerHTML = window.statusanzeigelisteRenderValue(value, oid, emptyText);
         }
     };
-    window.statusanzeigelisteUpdateTimer = window.statusanzeigelisteUpdateTimer || window.setInterval(window.statusanzeigelisteUpdateWidgets, 1000);
+    if (window.statusanzeigelisteUpdateTimer) window.clearInterval(window.statusanzeigelisteUpdateTimer);
+    window.statusanzeigelisteUpdateTimer = window.setInterval(window.statusanzeigelisteUpdateWidgets, 1000);
     window.setTimeout(window.statusanzeigelisteUpdateWidgets, 0);
     window.setTimeout(window.statusanzeigelisteUpdateWidgets, 250);
 </script>
@@ -24,13 +47,13 @@
         data-vis-set="statusanzeigeliste"
         data-vis-type="val"
         data-vis-name="Statusanzeigeliste"
-        data-vis-attrs="oid/id,statusanzeigeliste.0.html;title/text,Status;emptyText/text;showTitle/checkbox,true">
+        data-vis-attrs="oid/id,statusanzeigeliste.0.text;title/text,Status;emptyText/text;showTitle/checkbox,true">
     <div class="vis-widget <%== this.data.attr('class') %>" id="<%= this.data.attr('wid') %>" style="width:<%= this.data.attr('width') %>;height:<%= this.data.attr('height') %>;">
         <div class="statusanzeigeliste-widget">
             <% if (data.showTitle === 'true' || data.showTitle === true) { %>
                 <div class="statusanzeigeliste-title"><%= data.title || 'Status' %></div>
             <% } %>
-            <div class="statusanzeigeliste-content" id="<%= this.data.attr('wid') %>_content" data-oid="<%= data.oid || 'statusanzeigeliste.0.html' %>" data-empty-text="<%= data.emptyText || '' %>">
+            <div class="statusanzeigeliste-content" id="<%= this.data.attr('wid') %>_content" data-oid="<%= data.oid || 'statusanzeigeliste.0.text' %>" data-empty-text="<%= data.emptyText || '' %>">
                 <%= data.emptyText || '' %>
             </div>
         </div>

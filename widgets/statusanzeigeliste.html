@@ -48,13 +48,44 @@
         data-vis-type="val"
         data-vis-name="Statusanzeigeliste"
         data-vis-attrs="oid/id,statusanzeigeliste.0.text;title/text,Status;emptyText/text;showTitle/checkbox,true">
+    <%
+        var slOid = String(data.oid || 'statusanzeigeliste.0.text').replace(/\.val$/, '');
+        var slValue = '';
+        try {
+            if (typeof vis !== 'undefined' && vis.states && typeof vis.states.attr === 'function') {
+                slValue = vis.states.attr(slOid + '.val') || '';
+            }
+        } catch (e) {
+            slValue = '';
+        }
+        function slEscape(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+        function slRender(value, oid, emptyText) {
+            var text = value === null || value === undefined ? '' : String(value);
+            if (!text) return emptyText || '';
+            if (/\.html$/i.test(String(oid || ''))) return text;
+            return text
+                .split(/\r?\n/)
+                .filter(function (line) { return line !== ''; })
+                .map(function (line) {
+                    return '<div class="statusanzeigeliste-row info" data-severity="info">' + slEscape(line) + '</div>';
+                })
+                .join('');
+        }
+    %>
     <div class="vis-widget <%== this.data.attr('class') %>" id="<%= this.data.attr('wid') %>" style="width:<%= this.data.attr('width') %>;height:<%= this.data.attr('height') %>;">
         <div class="statusanzeigeliste-widget">
             <% if (data.showTitle === 'true' || data.showTitle === true) { %>
                 <div class="statusanzeigeliste-title"><%= data.title || 'Status' %></div>
             <% } %>
-            <div class="statusanzeigeliste-content" id="<%= this.data.attr('wid') %>_content" data-oid="<%= data.oid || 'statusanzeigeliste.0.text' %>" data-empty-text="<%= data.emptyText || '' %>">
-                <%= data.emptyText || '' %>
+            <div class="statusanzeigeliste-content" id="<%= this.data.attr('wid') %>_content" data-oid="<%= slOid %>" data-empty-text="<%= data.emptyText || '' %>">
+                <%== slRender(slValue, slOid, data.emptyText || '') %>
             </div>
         </div>
     </div>

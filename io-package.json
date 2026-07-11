@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "statusanzeigeliste",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "news": {
+      "0.1.4": {
+        "en": "Render the current widget value directly during template rendering for VIS-2.",
+        "de": "Rendert den aktuellen Widget-Wert fuer VIS-2 direkt beim Template-Rendering.",
+        "ru": "Render the current widget value directly during template rendering for VIS-2.",
+        "pt": "Render the current widget value directly during template rendering for VIS-2.",
+        "nl": "Render the current widget value directly during template rendering for VIS-2.",
+        "fr": "Render the current widget value directly during template rendering for VIS-2.",
+        "it": "Render the current widget value directly during template rendering for VIS-2.",
+        "es": "Render the current widget value directly during template rendering for VIS-2.",
+        "pl": "Render the current widget value directly during template rendering for VIS-2.",
+        "uk": "Render the current widget value directly during template rendering for VIS-2.",
+        "zh-cn": "Render the current widget value directly during template rendering for VIS-2."
+      },
       "0.1.3": {
         "en": "Read the plain text output state in the VIS widget by default and render text lines correctly.",
         "de": "Liest im VIS-Widget standardmaessig den Klartext-Ausgabestate und rendert Textzeilen korrekt.",

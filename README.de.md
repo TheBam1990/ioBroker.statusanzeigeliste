@@ -172,6 +172,10 @@ Diese Klassen kannst du bei Bedarf in VIS ueberschreiben.
 - VIS-Widget liest standardmaessig `statusanzeigeliste.0.text`.
 - Klartext-Ausgabe wird im Widget zeilenweise gerendert.
 
+### 0.1.4
+
+- Aktueller Widget-Wert wird direkt beim VIS-2 Template-Rendering ausgegeben.
+
 ## Lizenz
 
 MIT

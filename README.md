@@ -172,6 +172,10 @@ You can override these classes in VIS if you need a project-specific design.
 - Make the VIS widget read `statusanzeigeliste.0.text` by default.
 - Render plain text output line by line in the widget.
 
+### 0.1.4
+
+- Render the current widget value directly during VIS-2 template rendering.
+
 ## License
 
 MIT

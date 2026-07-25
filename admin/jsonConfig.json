@@ -17,7 +17,9 @@
           },
           "xs": 12,
           "sm": 6,
-          "md": 4
+          "md": 4,
+          "lg": 4,
+          "xl": 4
         },
         "includeDate": {
           "type": "checkbox",
@@ -31,7 +33,9 @@
           },
           "xs": 12,
           "sm": 6,
-          "md": 4
+          "md": 4,
+          "lg": 4,
+          "xl": 4
         },
         "includeTime": {
           "type": "checkbox",
@@ -45,7 +49,9 @@
           },
           "xs": 12,
           "sm": 6,
-          "md": 4
+          "md": 4,
+          "lg": 4,
+          "xl": 4
         },
         "emptyText": {
           "type": "text",
@@ -55,7 +61,9 @@
           },
           "xs": 12,
           "sm": 8,
-          "md": 6
+          "md": 6,
+          "lg": 6,
+          "xl": 6
         },
         "rowClass": {
           "type": "text",
@@ -65,7 +73,9 @@
           },
           "xs": 12,
           "sm": 4,
-          "md": 3
+          "md": 3,
+          "lg": 3,
+          "xl": 3
         },
         "archiveEnabled": {
           "type": "checkbox",
@@ -80,7 +90,9 @@
           "default": true,
           "xs": 12,
           "sm": 6,
-          "md": 4
+          "md": 4,
+          "lg": 4,
+          "xl": 4
         },
         "archiveMaxEntries": {
           "type": "number",
@@ -97,7 +109,9 @@
           "default": 500,
           "xs": 12,
           "sm": 6,
-          "md": 4
+          "md": 4,
+          "lg": 4,
+          "xl": 4
         },
         "emailInstance": {
           "type": "text",
@@ -112,7 +126,9 @@
           "default": "email.0",
           "xs": 12,
           "sm": 4,
-          "md": 3
+          "md": 3,
+          "lg": 3,
+          "xl": 3
         },
         "emailRecipient": {
           "type": "text",
@@ -126,7 +142,9 @@
           },
           "xs": 12,
           "sm": 4,
-          "md": 4
+          "md": 4,
+          "lg": 4,
+          "xl": 4
         },
         "emailSubject": {
           "type": "text",
@@ -136,8 +154,10 @@
           },
           "default": "ioBroker Meldungsarchiv",
           "xs": 12,
-          "sm": 4,
-          "md": 5
+          "sm": 12,
+          "md": 6,
+          "lg": 6,
+          "xl": 6
         }
       }
     },
@@ -159,6 +179,9 @@
           "showSecondAddAt": 10,
           "xs": 12,
           "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12,
           "items": [
             {
               "attr": "enabled",
@@ -218,14 +241,32 @@
                 {
                   "label": {
                     "en": "Fixed value",
-                    "de": "Festwert"
+                    "de": "Festwert",
+                    "ru": "Фиксированное значение",
+                    "pt": "Valor fixo",
+                    "nl": "Vaste waarde",
+                    "fr": "Valeur fixe",
+                    "it": "Valore fisso",
+                    "es": "Valor fijo",
+                    "pl": "Wartość stała",
+                    "uk": "Фіксоване значення",
+                    "zh-cn": "固定值"
                   },
                   "value": "constant"
                 },
                 {
                   "label": {
                     "en": "Other state",
-                    "de": "Anderer Datenpunkt"
+                    "de": "Anderer Datenpunkt",
+                    "ru": "Другое состояние",
+                    "pt": "Outro estado",
+                    "nl": "Andere status",
+                    "fr": "Autre état",
+                    "it": "Altro stato",
+                    "es": "Otro estado",
+                    "pl": "Inny stan",
+                    "uk": "Інший стан",
+                    "zh-cn": "其他状态"
                   },
                   "value": "state"
                 }

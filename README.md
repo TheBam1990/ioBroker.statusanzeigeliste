@@ -4,6 +4,25 @@ German documentation is available here: [README.de.md](README.de.md).
 
 Statusanzeigeliste creates a compact status message list from configurable ioBroker state comparisons. It is the successor-style rebuild of the older `meldungsliste` idea with a modern jsonConfig admin UI, analog comparisons, state-to-state comparisons and ready-to-use VIS/VIS-2 widgets.
 
+![Statusanzeigeliste VIS-2 demo with archive and export](docs/images/statusanzeigeliste-vis2-demo.png)
+
+## Requirements
+
+- Node.js 20 or newer
+- js-controller 6.0.11 or newer
+- Admin 7.6.17 or newer
+- VIS or VIS-2 only when the included widgets are used
+- ioBroker email adapter only when email delivery is used
+
+## Installation
+
+Install the adapter from the ioBroker Admin adapter list once it is available in the official repository. After installation:
+
+1. Create one adapter instance.
+2. Open the instance configuration and add the required rules.
+3. Save and close the configuration.
+4. In VIS/VIS-2, add either **Statusanzeigeliste** or **Archiv** from the `statusanzeigeliste` widget set.
+
 ![Rule concept](docs/images/rule-concept.svg)
 
 ## Features
@@ -176,6 +195,29 @@ Click **CSV exportieren** to download the complete currently stored archive dire
 
 Click **Per E-Mail senden** to deliver the same CSV file through an already installed ioBroker email adapter instance. SMTP and account credentials remain exclusively in the email adapter. If no recipient is entered in Statusanzeigeliste, the email adapter's default recipient is used.
 
+### Configure email delivery
+
+1. Install and configure an ioBroker email adapter instance, for example `email.0`.
+2. Send a test email from that adapter first.
+3. Enter its instance ID in **Email adapter instance**.
+4. Optionally enter a recipient and subject. An empty recipient uses the email adapter default.
+5. Save the Statusanzeigeliste configuration.
+6. Click **Per E-Mail senden** in the archive widget.
+
+The result is written to `archive.emailStatus`; the latest successful delivery time is written to `archive.lastEmail`.
+
+## Persistence and archive limits
+
+The archive is stored in `archive.json` and restored when the adapter restarts. Start times of currently active messages are persisted separately so a restart does not create duplicate `CAME` entries. Once the configured maximum is exceeded, the oldest event is removed. The supported range is 1 through 10,000 entries.
+
+## Troubleshooting
+
+- If the widgets are missing in the editor, restart the adapter and reload VIS/VIS-2 without using an old editor tab.
+- If the archive is empty, verify that a rule has actually changed from inactive to active or back.
+- If email delivery fails, check `archive.emailStatus`, ensure the selected email instance exists and test that instance separately.
+- If CSV export does not start, allow downloads for the VIS page in the browser.
+- Avoid keeping multiple VIS editor tabs open; an older tab can overwrite newer project data when saved.
+
 ## Notes
 
 - The first activation time is kept until the message disappears. If the same condition becomes active again later, a new start time is stored.
@@ -227,6 +269,11 @@ Click **Per E-Mail senden** to deliver the same CSV file through an already inst
 ### 0.2.3
 
 - Make browser CSV download work without an additional VIS-2 state subscription.
+
+### 0.2.4
+
+- Prepare package metadata, CI and documentation for the official ioBroker repository.
+- Add a real VIS-2 example screenshot and detailed installation, email and troubleshooting instructions.
 
 ## License
 

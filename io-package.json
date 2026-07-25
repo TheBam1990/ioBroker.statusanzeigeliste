@@ -1,124 +1,20 @@
 {
   "common": {
     "name": "statusanzeigeliste",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "news": {
-      "0.2.3": {
-        "en": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
-        "de": "Macht den CSV-Browserexport unabhaengig von zusaetzlichen VIS-2-State-Abonnements.",
-        "ru": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
-        "pt": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
-        "nl": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
-        "fr": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
-        "it": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
-        "es": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
-        "pl": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
-        "uk": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
-        "zh-cn": "Make browser CSV export independent from additional VIS-2 state subscriptions."
-      },
-      "0.2.2": {
-        "en": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
-        "de": "Versendet das CSV-Archiv ueber einen installierten ioBroker-E-Mail-Adapter direkt aus dem Archiv-Widget.",
-        "ru": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
-        "pt": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
-        "nl": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
-        "fr": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
-        "it": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
-        "es": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
-        "pl": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
-        "uk": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
-        "zh-cn": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget."
-      },
-      "0.2.1": {
-        "en": "Add a CSV archive output and direct browser download button to the archive widget.",
-        "de": "Fuegt eine CSV-Archivausgabe und einen direkten Browser-Download zum Archiv-Widget hinzu.",
-        "ru": "Add a CSV archive output and direct browser download button to the archive widget.",
-        "pt": "Add a CSV archive output and direct browser download button to the archive widget.",
-        "nl": "Add a CSV archive output and direct browser download button to the archive widget.",
-        "fr": "Add a CSV archive output and direct browser download button to the archive widget.",
-        "it": "Add a CSV archive output and direct browser download button to the archive widget.",
-        "es": "Add a CSV archive output and direct browser download button to the archive widget.",
-        "pl": "Add a CSV archive output and direct browser download button to the archive widget.",
-        "uk": "Add a CSV archive output and direct browser download button to the archive widget.",
-        "zh-cn": "Add a CSV archive output and direct browser download button to the archive widget."
-      },
-      "0.2.0": {
-        "en": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
-        "de": "Fuegt ein dauerhaftes Gekommen-/Gegangen-Meldungsarchiv mit einstellbarer Groesse und eigenem VIS-2-Archiv-Widget hinzu.",
-        "ru": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
-        "pt": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
-        "nl": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
-        "fr": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
-        "it": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
-        "es": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
-        "pl": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
-        "uk": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
-        "zh-cn": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget."
-      },
-      "0.1.4": {
-        "en": "Render the current widget value directly during template rendering for VIS-2.",
-        "de": "Rendert den aktuellen Widget-Wert fuer VIS-2 direkt beim Template-Rendering.",
-        "ru": "Render the current widget value directly during template rendering for VIS-2.",
-        "pt": "Render the current widget value directly during template rendering for VIS-2.",
-        "nl": "Render the current widget value directly during template rendering for VIS-2.",
-        "fr": "Render the current widget value directly during template rendering for VIS-2.",
-        "it": "Render the current widget value directly during template rendering for VIS-2.",
-        "es": "Render the current widget value directly during template rendering for VIS-2.",
-        "pl": "Render the current widget value directly during template rendering for VIS-2.",
-        "uk": "Render the current widget value directly during template rendering for VIS-2.",
-        "zh-cn": "Render the current widget value directly during template rendering for VIS-2."
-      },
-      "0.1.3": {
-        "en": "Read the plain text output state in the VIS widget by default and render text lines correctly.",
-        "de": "Liest im VIS-Widget standardmaessig den Klartext-Ausgabestate und rendert Textzeilen korrekt.",
-        "ru": "Read the plain text output state in the VIS widget by default and render text lines correctly.",
-        "pt": "Read the plain text output state in the VIS widget by default and render text lines correctly.",
-        "nl": "Read the plain text output state in the VIS widget by default and render text lines correctly.",
-        "fr": "Read the plain text output state in the VIS widget by default and render text lines correctly.",
-        "it": "Read the plain text output state in the VIS widget by default and render text lines correctly.",
-        "es": "Read the plain text output state in the VIS widget by default and render text lines correctly.",
-        "pl": "Read the plain text output state in the VIS widget by default and render text lines correctly.",
-        "uk": "Read the plain text output state in the VIS widget by default and render text lines correctly.",
-        "zh-cn": "Read the plain text output state in the VIS widget by default and render text lines correctly."
-      },
-      "0.1.2": {
-        "en": "Update already registered VIS-2 widget templates during adapter startup.",
-        "de": "Bereits registrierte VIS-2 Widget-Templates beim Adapterstart aktualisiert.",
-        "ru": "Update already registered VIS-2 widget templates during adapter startup.",
-        "pt": "Update already registered VIS-2 widget templates during adapter startup.",
-        "nl": "Update already registered VIS-2 widget templates during adapter startup.",
-        "fr": "Update already registered VIS-2 widget templates during adapter startup.",
-        "it": "Update already registered VIS-2 widget templates during adapter startup.",
-        "es": "Update already registered VIS-2 widget templates during adapter startup.",
-        "pl": "Update already registered VIS-2 widget templates during adapter startup.",
-        "uk": "Update already registered VIS-2 widget templates during adapter startup.",
-        "zh-cn": "Update already registered VIS-2 widget templates during adapter startup."
-      },
-      "0.1.1": {
-        "en": "Fix VIS widget state binding so the list value is displayed and updated.",
-        "de": "VIS-Widget-State-Bindung korrigiert, damit der Listenwert angezeigt und aktualisiert wird.",
-        "ru": "Fix VIS widget state binding so the list value is displayed and updated.",
-        "pt": "Fix VIS widget state binding so the list value is displayed and updated.",
-        "nl": "Fix VIS widget state binding so the list value is displayed and updated.",
-        "fr": "Fix VIS widget state binding so the list value is displayed and updated.",
-        "it": "Fix VIS widget state binding so the list value is displayed and updated.",
-        "es": "Fix VIS widget state binding so the list value is displayed and updated.",
-        "pl": "Fix VIS widget state binding so the list value is displayed and updated.",
-        "uk": "Fix VIS widget state binding so the list value is displayed and updated.",
-        "zh-cn": "Fix VIS widget state binding so the list value is displayed and updated."
-      },
-      "0.1.0": {
-        "en": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
-        "de": "Erste Statusanzeigeliste mit konfigurierbaren Vergleichen und VIS-Widgets.",
-        "ru": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
-        "pt": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
-        "nl": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
-        "fr": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
-        "it": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
-        "es": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
-        "pl": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
-        "uk": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets.",
-        "zh-cn": "Initial Statusanzeigeliste adapter with configurable comparisons and VIS widgets."
+      "0.2.4": {
+        "en": "Prepare the adapter for the official ioBroker repository and add complete documentation with a VIS-2 screenshot.",
+        "de": "Bereitet den Adapter fuer das offizielle ioBroker-Repository vor und ergaenzt die Dokumentation mit einem VIS-2-Screenshot.",
+        "ru": "Подготовка адаптера для официального репозитория ioBroker и дополнение документации снимком VIS-2.",
+        "pt": "Prepara o adaptador para o repositório oficial ioBroker e adiciona documentação completa com uma captura do VIS-2.",
+        "nl": "Bereidt de adapter voor op de officiële ioBroker-repository en voegt volledige documentatie met een VIS-2-schermafbeelding toe.",
+        "fr": "Prépare l’adaptateur pour le dépôt officiel ioBroker et complète la documentation avec une capture VIS-2.",
+        "it": "Prepara l’adattatore per il repository ufficiale ioBroker e aggiunge la documentazione completa con uno screenshot VIS-2.",
+        "es": "Prepara el adaptador para el repositorio oficial de ioBroker y añade documentación completa con una captura de VIS-2.",
+        "pl": "Przygotowuje adapter do oficjalnego repozytorium ioBroker i uzupełnia dokumentację o zrzut ekranu VIS-2.",
+        "uk": "Підготовка адаптера до офіційного репозиторію ioBroker і доповнення документації знімком VIS-2.",
+        "zh-cn": "为加入官方 ioBroker 仓库做好准备，并补充包含 VIS-2 截图的完整文档。"
       }
     },
     "titleLang": {
@@ -158,9 +54,11 @@
       "compare",
       "alarm"
     ],
-    "license": "MIT",
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
     "platform": "Javascript/Node.js",
-    "main": "main.js",
     "icon": "statusanzeigeliste.svg",
     "enabled": true,
     "extIcon": "https://raw.githubusercontent.com/TheBam1990/ioBroker.statusanzeigeliste/main/admin/statusanzeigeliste.svg",
@@ -168,12 +66,28 @@
     "loglevel": "info",
     "mode": "daemon",
     "type": "logic",
+    "tier": 3,
     "compact": true,
     "connectionType": "local",
     "dataSource": "push",
     "visWidgets": {
       "statusanzeigeliste": {
-        "name": "statusanzeigeliste"
+        "name": "statusanzeigeliste",
+        "url": "widgets/statusanzeigeliste.html",
+        "components": [
+          "tplStatusanzeigelisteList",
+          "tplStatusanzeigelisteArchive"
+        ],
+        "i18n": {
+          "Statusanzeigeliste": {
+            "en": "Status display list",
+            "de": "Statusanzeigeliste"
+          },
+          "Archiv": {
+            "en": "Archive",
+            "de": "Archiv"
+          }
+        }
       }
     },
     "adminUI": {
@@ -181,12 +95,12 @@
     },
     "dependencies": [
       {
-        "js-controller": ">=5.0.0"
+        "js-controller": ">=6.0.11"
       }
     ],
     "globalDependencies": [
       {
-        "admin": ">=6.0.0"
+        "admin": ">=7.6.20"
       }
     ]
   },

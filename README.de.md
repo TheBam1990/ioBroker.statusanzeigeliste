@@ -4,6 +4,25 @@ English documentation is available here: [README.md](README.md).
 
 Statusanzeigeliste erzeugt eine kompakte Statusmeldeliste aus konfigurierbaren ioBroker-Datenpunktvergleichen. Der Adapter ist als moderner Neubau der alten `meldungsliste`-Idee gedacht: mit jsonConfig-Oberflaeche, Analogwert-Vergleichen, Datenpunkt-gegen-Datenpunkt-Vergleichen und fertigen VIS/VIS-2 Widgets.
 
+![Statusanzeigeliste VIS-2 Demo mit Archiv und Export](docs/images/statusanzeigeliste-vis2-demo.png)
+
+## Voraussetzungen
+
+- Node.js 20 oder neuer
+- js-controller 6.0.11 oder neuer
+- Admin 7.6.17 oder neuer
+- VIS oder VIS-2 nur bei Verwendung der enthaltenen Widgets
+- ioBroker E-Mail-Adapter nur bei Verwendung des E-Mail-Versands
+
+## Installation
+
+Den Adapter nach seiner Aufnahme in das offizielle Repository über die Adapterliste im ioBroker Admin installieren. Nach der Installation:
+
+1. Eine Adapterinstanz anlegen.
+2. Die Instanzkonfiguration öffnen und die benötigten Regeln eintragen.
+3. Konfiguration speichern und schließen.
+4. In VIS/VIS-2 das Widget **Statusanzeigeliste** oder **Archiv** aus dem Widget-Set `statusanzeigeliste` einfügen.
+
 ![Regelprinzip](docs/images/rule-concept.svg)
 
 ## Funktionen
@@ -176,6 +195,29 @@ Mit **CSV exportieren** wird das vollstaendige aktuell gespeicherte Archiv direk
 
 Mit **Per E-Mail senden** wird dieselbe CSV-Datei ueber eine bereits installierte ioBroker-E-Mail-Adapterinstanz verschickt. SMTP- und Kontozugangsdaten verbleiben ausschliesslich im E-Mail-Adapter. Ist keine Empfaengeradresse im Statusanzeigen-Adapter eingetragen, wird der Standardempfaenger des E-Mail-Adapters verwendet.
 
+### E-Mail-Versand einrichten
+
+1. Eine ioBroker-E-Mail-Adapterinstanz, zum Beispiel `email.0`, installieren und konfigurieren.
+2. Zuerst direkt aus diesem Adapter eine Testmail versenden.
+3. Die Instanz-ID unter **E-Mail-Adapterinstanz** eintragen.
+4. Empfänger und Betreff optional eintragen. Ohne Empfänger wird der Standardempfänger des E-Mail-Adapters verwendet.
+5. Die Statusanzeigeliste-Konfiguration speichern.
+6. Im Archiv-Widget **Per E-Mail senden** auswählen.
+
+Das Ergebnis steht in `archive.emailStatus`; der letzte erfolgreiche Versandzeitpunkt steht in `archive.lastEmail`.
+
+## Speicherung und Archivbegrenzung
+
+Das Archiv wird in `archive.json` gespeichert und nach einem Adapterneustart wieder geladen. Die Startzeitpunkte aktiver Meldungen werden separat gesichert, damit beim Neustart keine doppelten `GEKOMMEN`-Ereignisse entstehen. Wird die konfigurierte Höchstzahl überschritten, entfernt der Adapter automatisch das älteste Ereignis. Einstellbar sind 1 bis 10.000 Einträge.
+
+## Fehlerbehebung
+
+- Fehlen die Widgets im Editor, den Adapter neu starten und VIS/VIS-2 ohne einen alten Editor-Tab neu laden.
+- Ist das Archiv leer, prüfen, ob eine Regel tatsächlich von inaktiv auf aktiv oder zurück gewechselt hat.
+- Schlägt der Mailversand fehl, `archive.emailStatus` prüfen und die ausgewählte E-Mail-Instanz separat testen.
+- Startet der CSV-Export nicht, Downloads für die VIS-Seite im Browser erlauben.
+- Nicht mehrere VIS-Editor-Tabs gleichzeitig offen lassen; ein alter Tab kann beim Speichern neuere Projektdaten überschreiben.
+
 ## Hinweise
 
 - Die Startzeit bleibt erhalten, solange die Meldung aktiv ist. Wird die Bedingung spaeter erneut aktiv, bekommt sie eine neue Startzeit.
@@ -227,6 +269,11 @@ Mit **Per E-Mail senden** wird dieselbe CSV-Datei ueber eine bereits installiert
 ### 0.2.3
 
 - CSV-Browserdownload funktioniert auch ohne zusaetzliches VIS-2-State-Abonnement.
+
+### 0.2.4
+
+- Paketmetadaten, CI und Dokumentation für das offizielle ioBroker-Repository vorbereitet.
+- Echten VIS-2-Beispielscreenshot sowie ausführliche Installations-, E-Mail- und Fehlerbehebungsanleitung ergänzt.
 
 ## Lizenz
 

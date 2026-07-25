@@ -1,6 +1,6 @@
 {
   "name": "iobroker.statusanzeigeliste",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "ioBroker adapter for configurable status message lists with VIS widgets",
   "author": "TheBam1990",
   "homepage": "https://github.com/TheBam1990/ioBroker.statusanzeigeliste",
@@ -18,7 +18,7 @@
     "README.de.md"
   ],
   "keywords": [
-    "iobroker",
+    "ioBroker",
     "status",
     "messages",
     "vis",
@@ -30,19 +30,20 @@
     "url": "git+https://github.com/TheBam1990/ioBroker.statusanzeigeliste.git"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.4.1"
+    "@iobroker/adapter-core": "^3.4.3"
   },
   "devDependencies": {
-    "@iobroker/testing": "^5.2.2",
+    "@iobroker/testing": "^5.3.0",
     "@types/node": "^22.18.0"
   },
   "scripts": {
     "start": "node main.js",
     "test": "node --check main.js",
-    "test:package": "node --check main.js"
+    "test:package": "node --check main.js",
+    "lint": "node --check main.js"
   },
   "bugs": {
     "url": "https://github.com/TheBam1990/ioBroker.statusanzeigeliste/issues"

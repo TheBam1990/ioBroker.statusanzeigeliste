@@ -23,6 +23,52 @@
             .join('');
     };
 
+    window.statusanzeigelisteDownloadArchive = function (button, oid) {
+        var exportOid = String(oid || 'statusanzeigeliste.0.archive.csv').replace(/\.val$/, '');
+        var csv = typeof vis !== 'undefined' && vis.states && typeof vis.states.attr === 'function'
+            ? vis.states.attr(exportOid + '.val')
+            : '';
+        if (csv === null || csv === undefined || String(csv) === '') {
+            var root = button && button.closest ? button.closest('.statusanzeigeliste-archive-widget') : null;
+            var rows = root ? root.querySelectorAll('.statusanzeigeliste-row.archive') : [];
+            var quote = function (value) {
+                var text = String(value === null || value === undefined ? '' : value);
+                return /[;"\r\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
+            };
+            var table = [['Zeitpunkt', 'Ereignis', 'Prioritaet', 'Regel', 'Meldung', 'Datenpunkt', 'Wert', 'Dauer Sekunden']];
+            for (var i = 0; i < rows.length; i++) {
+                table.push([
+                    rows[i].getAttribute('data-timestamp') || '',
+                    rows[i].getAttribute('data-event') || '',
+                    rows[i].getAttribute('data-severity') || '',
+                    rows[i].getAttribute('data-rule') || '',
+                    rows[i].getAttribute('data-text') || '',
+                    rows[i].getAttribute('data-source') || '',
+                    rows[i].getAttribute('data-value') || '',
+                    rows[i].getAttribute('data-duration-seconds') || ''
+                ]);
+            }
+            csv = table.map(function (row) { return row.map(quote).join(';'); }).join('\r\n');
+        }
+        var date = new Date();
+        var day = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+        var blob = new Blob(['\ufeff', String(csv)], {type: 'text/csv;charset=utf-8'});
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'statusanzeigeliste-archiv-' + day + '.csv';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    };
+
+    window.statusanzeigelisteSendArchiveEmail = function (oid) {
+        if (typeof vis === 'undefined' || typeof vis.setValue !== 'function') return;
+        var sendOid = String(oid || 'statusanzeigeliste.0.archive.sendEmail').replace(/\.val$/, '');
+        vis.setValue(sendOid, true);
+    };
+
     window.statusanzeigelisteUpdateWidgets = function () {
         if (typeof vis === 'undefined' || !vis.states || typeof vis.states.attr !== 'function') return;
         var nodes = document.querySelectorAll('.statusanzeigeliste-content[data-oid]');
@@ -47,9 +93,11 @@
         data-vis-set="statusanzeigeliste"
         data-vis-type="val"
         data-vis-name="Archiv"
-        data-vis-attrs="oid/id,statusanzeigeliste.0.archive.html;title/text,Archiv;emptyText/text,Archiv ist leer;showTitle/checkbox,true">
+        data-vis-attrs="oid/id,statusanzeigeliste.0.archive.html;exportOid/id,statusanzeigeliste.0.archive.csv;sendEmailOid/id,statusanzeigeliste.0.archive.sendEmail;title/text,Archiv;emptyText/text,Archiv ist leer;showTitle/checkbox,true;showExport/checkbox,true;showEmail/checkbox,true">
     <%
         var archiveOid = String(data.oid || 'statusanzeigeliste.0.archive.html').replace(/\.val$/, '');
+        var archiveExportOid = String(data.exportOid || 'statusanzeigeliste.0.archive.csv').replace(/\.val$/, '');
+        var archiveSendEmailOid = String(data.sendEmailOid || 'statusanzeigeliste.0.archive.sendEmail').replace(/\.val$/, '');
         var archiveValue = '';
         try {
             if (typeof vis !== 'undefined' && vis.states && typeof vis.states.attr === 'function') {
@@ -61,9 +109,19 @@
     %>
     <div class="vis-widget <%== this.data.attr('class') %>" id="<%= this.data.attr('wid') %>" style="width:<%= this.data.attr('width') %>;height:<%= this.data.attr('height') %>;">
         <div class="statusanzeigeliste-widget statusanzeigeliste-archive-widget">
-            <% if (data.showTitle === 'true' || data.showTitle === true) { %>
-                <div class="statusanzeigeliste-title"><%= data.title || 'Archiv' %></div>
-            <% } %>
+            <div class="statusanzeigeliste-archive-toolbar">
+                <% if (data.showTitle === 'true' || data.showTitle === true) { %>
+                    <div class="statusanzeigeliste-title"><%= data.title || 'Archiv' %></div>
+                <% } %>
+                <div class="statusanzeigeliste-archive-actions">
+                    <% if (data.showEmail !== 'false' && data.showEmail !== false) { %>
+                        <button type="button" class="statusanzeigeliste-email-button" onclick="window.statusanzeigelisteSendArchiveEmail('<%= archiveSendEmailOid %>')">Per E-Mail senden</button>
+                    <% } %>
+                    <% if (data.showExport !== 'false' && data.showExport !== false) { %>
+                        <button type="button" class="statusanzeigeliste-export-button" onclick="window.statusanzeigelisteDownloadArchive(this, '<%= archiveExportOid %>')">CSV exportieren</button>
+                    <% } %>
+                </div>
+            </div>
             <div class="statusanzeigeliste-content" id="<%= this.data.attr('wid') %>_content" data-oid="<%= archiveOid %>" data-empty-text="<%= data.emptyText || 'Archiv ist leer' %>">
                 <%== window.statusanzeigelisteRenderValue(archiveValue, archiveOid, data.emptyText || 'Archiv ist leer') %>
             </div>

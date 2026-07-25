@@ -1,8 +1,47 @@
 {
   "common": {
     "name": "statusanzeigeliste",
-    "version": "0.2.0",
+    "version": "0.2.3",
     "news": {
+      "0.2.3": {
+        "en": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
+        "de": "Macht den CSV-Browserexport unabhaengig von zusaetzlichen VIS-2-State-Abonnements.",
+        "ru": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
+        "pt": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
+        "nl": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
+        "fr": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
+        "it": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
+        "es": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
+        "pl": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
+        "uk": "Make browser CSV export independent from additional VIS-2 state subscriptions.",
+        "zh-cn": "Make browser CSV export independent from additional VIS-2 state subscriptions."
+      },
+      "0.2.2": {
+        "en": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
+        "de": "Versendet das CSV-Archiv ueber einen installierten ioBroker-E-Mail-Adapter direkt aus dem Archiv-Widget.",
+        "ru": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
+        "pt": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
+        "nl": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
+        "fr": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
+        "it": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
+        "es": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
+        "pl": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
+        "uk": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget.",
+        "zh-cn": "Send the CSV archive through an installed ioBroker email adapter directly from the archive widget."
+      },
+      "0.2.1": {
+        "en": "Add a CSV archive output and direct browser download button to the archive widget.",
+        "de": "Fuegt eine CSV-Archivausgabe und einen direkten Browser-Download zum Archiv-Widget hinzu.",
+        "ru": "Add a CSV archive output and direct browser download button to the archive widget.",
+        "pt": "Add a CSV archive output and direct browser download button to the archive widget.",
+        "nl": "Add a CSV archive output and direct browser download button to the archive widget.",
+        "fr": "Add a CSV archive output and direct browser download button to the archive widget.",
+        "it": "Add a CSV archive output and direct browser download button to the archive widget.",
+        "es": "Add a CSV archive output and direct browser download button to the archive widget.",
+        "pl": "Add a CSV archive output and direct browser download button to the archive widget.",
+        "uk": "Add a CSV archive output and direct browser download button to the archive widget.",
+        "zh-cn": "Add a CSV archive output and direct browser download button to the archive widget."
+      },
       "0.2.0": {
         "en": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
         "de": "Fuegt ein dauerhaftes Gekommen-/Gegangen-Meldungsarchiv mit einstellbarer Groesse und eigenem VIS-2-Archiv-Widget hinzu.",
@@ -159,6 +198,9 @@
     "rowClass": "statusanzeigeliste-row",
     "archiveEnabled": true,
     "archiveMaxEntries": 500,
+    "emailInstance": "email.0",
+    "emailRecipient": "",
+    "emailSubject": "ioBroker Meldungsarchiv",
     "rules": []
   },
   "objects": [],

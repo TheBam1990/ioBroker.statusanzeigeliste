@@ -37,8 +37,12 @@ The adapter creates these states:
 | `statusanzeigeliste.0.archive.html` | Formatted message archive as HTML. |
 | `statusanzeigeliste.0.archive.text` | Message archive as plain text. |
 | `statusanzeigeliste.0.archive.json` | Structured archive events as JSON. |
+| `statusanzeigeliste.0.archive.csv` | Semicolon-separated CSV output for spreadsheet applications. |
 | `statusanzeigeliste.0.archive.count` | Number of currently stored archive events. |
 | `statusanzeigeliste.0.archive.clear` | Set to `true` to clear the archive. |
+| `statusanzeigeliste.0.archive.sendEmail` | Set to `true` to send the CSV archive by email. |
+| `statusanzeigeliste.0.archive.emailStatus` | Result of the latest email attempt. |
+| `statusanzeigeliste.0.archive.lastEmail` | Time of the latest successful email export. |
 
 ## Rule Model
 
@@ -66,6 +70,9 @@ If the condition is true, the configured message text appears in the list. If th
 | CSS class for message rows | CSS class used for generated HTML rows. Default: `statusanzeigeliste-row`. |
 | Enable message archive | Stores a `CAME` or `GONE` event for every status transition. |
 | Maximum archive entries | Limits the archive to 1 through 10,000 events. Oldest events are removed automatically. |
+| Email adapter instance | Existing delivery instance, for example `email.0`. |
+| Archive email recipient | Optional; when empty, the email adapter's default recipient is used. |
+| Archive email subject | Subject used for archive delivery. |
 
 If both date and time are enabled, the output looks like:
 
@@ -165,6 +172,10 @@ statusanzeigeliste.0.archive.html
 
 Every row shows whether a message came or went, its date, time and message text. Gone messages also show how long they were active. The archive and the start times of active messages survive adapter restarts.
 
+Click **CSV exportieren** to download the complete currently stored archive directly in the browser. The file contains timestamp, event, severity, rule, message, source state, value and duration and can be opened with applications such as Excel or LibreOffice Calc. The export button can be hidden and its CSV state can be changed in the widget settings.
+
+Click **Per E-Mail senden** to deliver the same CSV file through an already installed ioBroker email adapter instance. SMTP and account credentials remain exclusively in the email adapter. If no recipient is entered in Statusanzeigeliste, the email adapter's default recipient is used.
+
 ## Notes
 
 - The first activation time is kept until the message disappears. If the same condition becomes active again later, a new start time is stored.
@@ -201,6 +212,21 @@ Every row shows whether a message came or went, its date, time and message text.
 - Make the maximum archive size configurable.
 - Add the dedicated **Statusanzeigeliste Archiv** VIS/VIS-2 widget.
 - Provide HTML, plain-text and JSON archive outputs plus a clear state.
+
+### 0.2.1
+
+- Add CSV output for the message archive.
+- Add a direct browser download button to the archive widget.
+
+### 0.2.2
+
+- Send the CSV archive through an existing ioBroker email adapter.
+- Add a **Per E-Mail senden** button to the archive widget.
+- Add configurable email instance, recipient and subject.
+
+### 0.2.3
+
+- Make browser CSV download work without an additional VIS-2 state subscription.
 
 ## License
 

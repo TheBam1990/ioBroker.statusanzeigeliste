@@ -37,8 +37,12 @@ Der Adapter legt diese States an:
 | `statusanzeigeliste.0.archive.html` | Meldungsarchiv als formatiertes HTML. |
 | `statusanzeigeliste.0.archive.text` | Meldungsarchiv als Klartext. |
 | `statusanzeigeliste.0.archive.json` | Strukturierte Archivereignisse als JSON. |
+| `statusanzeigeliste.0.archive.csv` | Semikolongetrennte CSV-Datei fuer Tabellenprogramme. |
 | `statusanzeigeliste.0.archive.count` | Anzahl aktuell gespeicherter Archivereignisse. |
 | `statusanzeigeliste.0.archive.clear` | Auf `true` setzen, um das Archiv zu leeren. |
+| `statusanzeigeliste.0.archive.sendEmail` | Auf `true` setzen, um das CSV-Archiv per E-Mail zu senden. |
+| `statusanzeigeliste.0.archive.emailStatus` | Ergebnis des letzten E-Mail-Versuchs. |
+| `statusanzeigeliste.0.archive.lastEmail` | Zeitpunkt des letzten erfolgreichen E-Mail-Versands. |
 
 ## Regelmodell
 
@@ -66,6 +70,9 @@ Wenn die Bedingung wahr ist, erscheint der Meldungstext in der Liste. Wird die B
 | CSS-Klasse fuer Meldungszeilen | CSS-Klasse fuer die erzeugten HTML-Zeilen. Standard: `statusanzeigeliste-row`. |
 | Meldungsarchiv aktivieren | Speichert bei jedem Zustandswechsel ein Ereignis `GEKOMMEN` oder `GEGANGEN`. |
 | Maximale Anzahl Archiveintraege | Begrenzt das Archiv auf 1 bis 10.000 Ereignisse. Die aeltesten Ereignisse werden automatisch entfernt. |
+| E-Mail-Adapterinstanz | Vorhandene Versandinstanz, zum Beispiel `email.0`. |
+| Empfaenger fuer Archiv-E-Mail | Optional; leer verwendet den Standardempfaenger des E-Mail-Adapters. |
+| Betreff der Archiv-E-Mail | Betreff fuer den Archivversand. |
 
 Wenn Datum und Uhrzeit aktiv sind, sieht die Ausgabe so aus:
 
@@ -165,6 +172,10 @@ statusanzeigeliste.0.archive.html
 
 Jede Zeile zeigt den Ereignistyp `GEKOMMEN` oder `GEGANGEN`, Datum, Uhrzeit und Meldungstext. Bei einer gegangenen Meldung wird zusaetzlich ihre aktive Dauer angezeigt. Das Archiv und die aktuell aktiven Startzeitpunkte bleiben bei einem Adapterneustart erhalten.
 
+Mit **CSV exportieren** wird das vollstaendige aktuell gespeicherte Archiv direkt im Browser heruntergeladen. Die Datei enthaelt Zeitpunkt, Ereignis, Prioritaet, Regel, Meldung, Datenpunkt, Wert und Dauer und kann beispielsweise mit Excel oder LibreOffice Calc geoeffnet werden. Der Export-Button kann in den Widget-Einstellungen ausgeblendet und der CSV-Datenpunkt bei Bedarf geaendert werden.
+
+Mit **Per E-Mail senden** wird dieselbe CSV-Datei ueber eine bereits installierte ioBroker-E-Mail-Adapterinstanz verschickt. SMTP- und Kontozugangsdaten verbleiben ausschliesslich im E-Mail-Adapter. Ist keine Empfaengeradresse im Statusanzeigen-Adapter eingetragen, wird der Standardempfaenger des E-Mail-Adapters verwendet.
+
 ## Hinweise
 
 - Die Startzeit bleibt erhalten, solange die Meldung aktiv ist. Wird die Bedingung spaeter erneut aktiv, bekommt sie eine neue Startzeit.
@@ -201,6 +212,21 @@ Jede Zeile zeigt den Ereignistyp `GEKOMMEN` oder `GEGANGEN`, Datum, Uhrzeit und 
 - Maximale Archivgroesse in der Adapterkonfiguration einstellbar.
 - Eigenes VIS/VIS-2 Widget **Statusanzeigeliste Archiv**.
 - Archiv als HTML, Klartext und JSON sowie Loesch-Datenpunkt.
+
+### 0.2.1
+
+- CSV-Ausgabe fuer das Meldungsarchiv.
+- Direkter Browser-Download ueber den Button **CSV exportieren** im Archiv-Widget.
+
+### 0.2.2
+
+- Versand des CSV-Archivs ueber einen vorhandenen ioBroker-E-Mail-Adapter.
+- Button **Per E-Mail senden** im Archiv-Widget.
+- Konfigurierbare E-Mail-Instanz, Empfaengeradresse und Betreff.
+
+### 0.2.3
+
+- CSV-Browserdownload funktioniert auch ohne zusaetzliches VIS-2-State-Abonnement.
 
 ## Lizenz
 

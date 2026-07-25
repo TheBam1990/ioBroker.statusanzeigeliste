@@ -98,6 +98,46 @@
           "xs": 12,
           "sm": 6,
           "md": 4
+        },
+        "emailInstance": {
+          "type": "text",
+          "label": {
+            "en": "Email adapter instance",
+            "de": "E-Mail-Adapterinstanz"
+          },
+          "help": {
+            "en": "Existing ioBroker email instance used for archive delivery, for example email.0.",
+            "de": "Vorhandene ioBroker-E-Mail-Instanz fuer den Archivversand, zum Beispiel email.0."
+          },
+          "default": "email.0",
+          "xs": 12,
+          "sm": 4,
+          "md": 3
+        },
+        "emailRecipient": {
+          "type": "text",
+          "label": {
+            "en": "Archive email recipient",
+            "de": "Empfaenger fuer Archiv-E-Mail"
+          },
+          "help": {
+            "en": "Optional. If empty, the default recipient configured in the email adapter is used.",
+            "de": "Optional. Wenn leer, wird der im E-Mail-Adapter konfigurierte Standardempfaenger verwendet."
+          },
+          "xs": 12,
+          "sm": 4,
+          "md": 4
+        },
+        "emailSubject": {
+          "type": "text",
+          "label": {
+            "en": "Archive email subject",
+            "de": "Betreff der Archiv-E-Mail"
+          },
+          "default": "ioBroker Meldungsarchiv",
+          "xs": 12,
+          "sm": 4,
+          "md": 5
         }
       }
     },

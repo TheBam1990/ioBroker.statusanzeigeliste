@@ -36,6 +36,9 @@ class Statusanzeigeliste extends utils.Adapter {
             rowClass: String(this.config.rowClass || DEFAULT_ROW_CLASS).trim() || DEFAULT_ROW_CLASS,
             archiveEnabled: this.config.archiveEnabled !== false && this.config.archiveEnabled !== "false",
             archiveMaxEntries: this.normalizeArchiveLimit(this.config.archiveMaxEntries),
+            emailInstance: String(this.config.emailInstance || "email.0").trim() || "email.0",
+            emailRecipient: String(this.config.emailRecipient || "").trim(),
+            emailSubject: String(this.config.emailSubject || "ioBroker Meldungsarchiv").trim() || "ioBroker Meldungsarchiv",
             rules: this.parseRules(this.config.rules || this.config.shorts_in),
         };
     }
@@ -54,6 +57,7 @@ class Statusanzeigeliste extends utils.Adapter {
 
         this.buildRules();
         await this.subscribeStatesAsync("archive.clear");
+        await this.subscribeStatesAsync("archive.sendEmail");
         await this.subscribeRuleStates();
         await this.refreshAllRules();
         await this.installVis2Widgets();
@@ -94,8 +98,12 @@ class Statusanzeigeliste extends utils.Adapter {
         await this.ensureState("archive.html", "Archive as HTML", "string", "html", true, false);
         await this.ensureState("archive.text", "Archive as plain text", "string", "text", true, false);
         await this.ensureState("archive.json", "Archive as JSON", "string", "json", true, false);
+        await this.ensureState("archive.csv", "Archive as CSV export", "string", "text", true, false);
         await this.ensureState("archive.count", "Archive entries", "number", "value", true, false);
         await this.ensureState("archive.clear", "Clear archive", "boolean", "button", false, true);
+        await this.ensureState("archive.sendEmail", "Send archive by email", "boolean", "button", false, true);
+        await this.ensureState("archive.emailStatus", "Last email export status", "string", "text", true, false);
+        await this.ensureState("archive.lastEmail", "Last successful email export", "string", "value.time", true, false);
         await this.ensureState("archive.activeState", "Persisted active messages", "string", "json", true, false);
     }
 
@@ -210,6 +218,13 @@ class Statusanzeigeliste extends utils.Adapter {
                 await this.setStateAsync("archive.clear", false, true);
                 await this.publishArchive();
                 this.log.info("Message archive cleared");
+            }
+            return;
+        }
+        if (id === `${this.namespace}.archive.sendEmail`) {
+            if (state.val === true || state.val === "true" || state.val === 1 || state.val === "1") {
+                await this.setStateAsync("archive.sendEmail", false, true);
+                await this.sendArchiveEmail();
             }
             return;
         }
@@ -426,7 +441,76 @@ class Statusanzeigeliste extends utils.Adapter {
         await this.setStateAsync("archive.text", lines.join("\n"), true);
         await this.setStateAsync("archive.html", this.renderArchiveHtml(entries), true);
         await this.setStateAsync("archive.json", JSON.stringify(entries), true);
+        await this.setStateAsync("archive.csv", this.renderArchiveCsv(entries), true);
         await this.setStateAsync("archive.count", entries.length, true);
+    }
+
+    renderArchiveCsv(entries) {
+        const rows = [
+            ["Zeitpunkt", "Ereignis", "Prioritaet", "Regel", "Meldung", "Datenpunkt", "Wert", "Dauer Sekunden"],
+        ];
+        for (const entry of entries) {
+            rows.push([
+                new Date(entry.timestamp).toISOString(),
+                entry.event === "gone" ? "GEGANGEN" : "GEKOMMEN",
+                entry.severity || "info",
+                entry.ruleName || "",
+                entry.text || "",
+                entry.sourceId || "",
+                entry.sourceValue ?? "",
+                entry.event === "gone" ? Math.round(Number(entry.durationMs || 0) / 1000) : "",
+            ]);
+        }
+        return rows.map(row => row.map(value => this.escapeCsv(value)).join(";")).join("\r\n");
+    }
+
+    escapeCsv(value) {
+        const text = String(value ?? "");
+        return /[;"\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+    }
+
+    async sendArchiveEmail() {
+        try {
+            const instanceId = this.cfg.emailInstance.startsWith("system.adapter.")
+                ? this.cfg.emailInstance
+                : `system.adapter.${this.cfg.emailInstance}`;
+            const instance = await this.getForeignObjectAsync(instanceId);
+            if (!instance) throw new Error(`E-Mail-Adapterinstanz ${this.cfg.emailInstance} ist nicht installiert`);
+            if (instance.common && instance.common.enabled === false) {
+                throw new Error(`E-Mail-Adapterinstanz ${this.cfg.emailInstance} ist deaktiviert`);
+            }
+
+            const csv = this.renderArchiveCsv(this.archive.slice(0, this.cfg.archiveMaxEntries));
+            const day = new Date().toISOString().slice(0, 10);
+            const message = {
+                subject: this.cfg.emailSubject,
+                text: `Im Anhang befindet sich das ioBroker-Meldungsarchiv mit ${this.archive.length} Eintraegen.`,
+                attachments: [{
+                    filename: `statusanzeigeliste-archiv-${day}.csv`,
+                    content: `\uFEFF${csv}`,
+                    contentType: "text/csv; charset=utf-8",
+                }],
+            };
+            if (this.cfg.emailRecipient) message.to = this.cfg.emailRecipient;
+
+            await new Promise((resolve, reject) => {
+                this.sendTo(this.cfg.emailInstance, "send", message, response => {
+                    if (response && (response.error || response.sent === false)) {
+                        reject(new Error(response.error || "E-Mail-Versand fehlgeschlagen"));
+                    } else {
+                        resolve(response);
+                    }
+                });
+            });
+
+            const timestamp = new Date().toISOString();
+            await this.setStateAsync("archive.emailStatus", `Erfolgreich versendet: ${timestamp}`, true);
+            await this.setStateAsync("archive.lastEmail", timestamp, true);
+            this.log.info(`Message archive sent via ${this.cfg.emailInstance}`);
+        } catch (error) {
+            await this.setStateAsync("archive.emailStatus", `Fehler: ${error.message}`, true);
+            this.log.warn(`Cannot send message archive by email: ${error.message}`);
+        }
     }
 
     formatArchiveEntry(entry) {
@@ -447,7 +531,17 @@ class Statusanzeigeliste extends utils.Adapter {
             const timestamp = new Date(entry.timestamp);
             const duration = event === "gone" ? ` · Dauer ${this.formatDuration(entry.durationMs)}` : "";
             const text = this.escapeHtml(`${this.formatDate(timestamp)} ${this.formatTime(timestamp)} · ${entry.text}${duration}`);
-            return `<div class="${this.escapeHtml(this.cfg.rowClass)} archive ${severity} archive-${event}" data-severity="${severity}" data-event="${event}"><span class="statusanzeigeliste-archive-event">${state}</span><span class="statusanzeigeliste-archive-text">${text}</span></div>`;
+            const attributes = [
+                ["severity", entry.severity || "info"],
+                ["event", state],
+                ["timestamp", new Date(entry.timestamp).toISOString()],
+                ["rule", entry.ruleName || ""],
+                ["text", entry.text || ""],
+                ["source", entry.sourceId || ""],
+                ["value", entry.sourceValue ?? ""],
+                ["duration-seconds", event === "gone" ? Math.round(Number(entry.durationMs || 0) / 1000) : ""],
+            ].map(([name, value]) => `data-${name}="${this.escapeHtml(value)}"`).join(" ");
+            return `<div class="${this.escapeHtml(this.cfg.rowClass)} archive ${severity} archive-${event}" ${attributes}><span class="statusanzeigeliste-archive-event">${state}</span><span class="statusanzeigeliste-archive-text">${text}</span></div>`;
         }).join("\n");
     }
 

@@ -66,6 +66,38 @@
           "xs": 12,
           "sm": 4,
           "md": 3
+        },
+        "archiveEnabled": {
+          "type": "checkbox",
+          "label": {
+            "en": "Enable message archive",
+            "de": "Meldungsarchiv aktivieren"
+          },
+          "help": {
+            "en": "Stores a coming and going event for every status transition.",
+            "de": "Speichert fuer jeden Statuswechsel ein Gekommen- und ein Gegangen-Ereignis."
+          },
+          "default": true,
+          "xs": 12,
+          "sm": 6,
+          "md": 4
+        },
+        "archiveMaxEntries": {
+          "type": "number",
+          "label": {
+            "en": "Maximum archive entries",
+            "de": "Maximale Anzahl Archiveintraege"
+          },
+          "help": {
+            "en": "Oldest events are automatically removed when this limit is exceeded.",
+            "de": "Die aeltesten Ereignisse werden beim Ueberschreiten automatisch entfernt."
+          },
+          "min": 1,
+          "max": 10000,
+          "default": 500,
+          "xs": 12,
+          "sm": 6,
+          "md": 4
         }
       }
     },

@@ -49,6 +49,40 @@
     color: #52616f;
 }
 
+.statusanzeigeliste-row.archive {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+}
+
+.statusanzeigeliste-row.archive-came {
+    background: #f0fdf4;
+}
+
+.statusanzeigeliste-row.archive-gone {
+    background: #f8fafc;
+    opacity: 0.88;
+}
+
+.statusanzeigeliste-archive-event {
+    padding: 3px 6px;
+    border-radius: 999px;
+    color: #ffffff;
+    background: #1f9d55;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.statusanzeigeliste-row.archive-gone .statusanzeigeliste-archive-event {
+    background: #64748b;
+}
+
+.statusanzeigeliste-archive-text {
+    min-width: 0;
+}
+
 .statusanzeigeliste-vis-preview {
     width: 220px;
     min-height: 90px;

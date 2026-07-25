@@ -1,6 +1,6 @@
 {
   "name": "iobroker.statusanzeigeliste",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "ioBroker adapter for configurable status message lists with VIS widgets",
   "author": "TheBam1990",
   "homepage": "https://github.com/TheBam1990/ioBroker.statusanzeigeliste",

@@ -5,6 +5,7 @@ const path = require("path");
 const utils = require("@iobroker/adapter-core");
 
 const DEFAULT_ROW_CLASS = "statusanzeigeliste-row";
+const DEFAULT_ARCHIVE_MAX_ENTRIES = 500;
 
 class Statusanzeigeliste extends utils.Adapter {
     constructor(options = {}) {
@@ -17,6 +18,7 @@ class Statusanzeigeliste extends utils.Adapter {
         this.rulesByState = new Map();
         this.states = new Map();
         this.activeMessages = new Map();
+        this.archive = [];
         this.rebuildTimer = null;
 
         this.on("ready", () => this.onReady());
@@ -32,12 +34,15 @@ class Statusanzeigeliste extends utils.Adapter {
             emptyText: String(this.config.emptyText || ""),
             htmlLineBreak: this.config.htmlLineBreak !== false,
             rowClass: String(this.config.rowClass || DEFAULT_ROW_CLASS).trim() || DEFAULT_ROW_CLASS,
+            archiveEnabled: this.config.archiveEnabled !== false && this.config.archiveEnabled !== "false",
+            archiveMaxEntries: this.normalizeArchiveLimit(this.config.archiveMaxEntries),
             rules: this.parseRules(this.config.rules || this.config.shorts_in),
         };
     }
 
     async onReady() {
         await this.initObjects();
+        await this.loadPersistedData();
         await this.setStateAsync("info.connection", this.cfg.enabled, true);
         await this.setStateAsync("info.lastError", "", true);
 
@@ -48,6 +53,7 @@ class Statusanzeigeliste extends utils.Adapter {
         }
 
         this.buildRules();
+        await this.subscribeStatesAsync("archive.clear");
         await this.subscribeRuleStates();
         await this.refreshAllRules();
         await this.installVis2Widgets();
@@ -80,6 +86,17 @@ class Statusanzeigeliste extends utils.Adapter {
         await this.ensureState("html", "Messages as widget HTML", "string", "html", true, false);
         await this.ensureState("text", "Messages as plain text", "string", "text", true, false);
         await this.ensureState("json", "Messages as JSON", "string", "json", true, false);
+        await this.setObjectNotExistsAsync("archive", {
+            type: "channel",
+            common: { name: "Message archive" },
+            native: {},
+        });
+        await this.ensureState("archive.html", "Archive as HTML", "string", "html", true, false);
+        await this.ensureState("archive.text", "Archive as plain text", "string", "text", true, false);
+        await this.ensureState("archive.json", "Archive as JSON", "string", "json", true, false);
+        await this.ensureState("archive.count", "Archive entries", "number", "value", true, false);
+        await this.ensureState("archive.clear", "Clear archive", "boolean", "button", false, true);
+        await this.ensureState("archive.activeState", "Persisted active messages", "string", "json", true, false);
     }
 
     async ensureState(id, name, type, role, read, write) {
@@ -143,6 +160,11 @@ class Statusanzeigeliste extends utils.Adapter {
             if (compareMode === "state") this.addRuleForState(compareStateId, rule);
         }
 
+        const configuredRuleIds = new Set(this.rules.map(rule => rule.id));
+        for (const id of this.activeMessages.keys()) {
+            if (!configuredRuleIds.has(id)) this.activeMessages.delete(id);
+        }
+
         this.log.info(`Statusanzeigeliste active rules: ${this.rules.length}`);
     }
 
@@ -182,6 +204,15 @@ class Statusanzeigeliste extends utils.Adapter {
 
     async onStateChange(id, state) {
         if (!state || !this.cfg.enabled) return;
+        if (id === `${this.namespace}.archive.clear`) {
+            if (state.val === true || state.val === "true" || state.val === 1 || state.val === "1") {
+                this.archive = [];
+                await this.setStateAsync("archive.clear", false, true);
+                await this.publishArchive();
+                this.log.info("Message archive cleared");
+            }
+            return;
+        }
         this.states.set(id, state);
 
         const rules = this.rulesByState.get(id) || [];
@@ -216,7 +247,7 @@ class Statusanzeigeliste extends utils.Adapter {
 
             if (active) {
                 const existing = this.activeMessages.get(rule.id);
-                this.activeMessages.set(rule.id, {
+                const item = {
                     id: rule.id,
                     index: rule.index,
                     name: rule.name,
@@ -228,9 +259,11 @@ class Statusanzeigeliste extends utils.Adapter {
                     sourceValue: left,
                     compareValue: right,
                     startTs: existing ? existing.startTs : Date.now(),
-                });
+                };
+                this.activeMessages.set(rule.id, item);
+                if (!existing) this.addArchiveEvent("came", item);
             } else {
-                this.setInactive(rule.id);
+                this.setInactive(rule.id, left, right);
             }
             await this.setStateAsync("info.lastError", "", true);
         } catch (error) {
@@ -246,8 +279,68 @@ class Statusanzeigeliste extends utils.Adapter {
         return state;
     }
 
-    setInactive(ruleId) {
+    setInactive(ruleId, sourceValue, compareValue) {
+        const existing = this.activeMessages.get(ruleId);
+        if (!existing) return;
         this.activeMessages.delete(ruleId);
+        this.addArchiveEvent("gone", {
+            ...existing,
+            sourceValue,
+            compareValue,
+        });
+    }
+
+    normalizeArchiveLimit(value) {
+        const parsed = Number.parseInt(value, 10);
+        if (!Number.isFinite(parsed)) return DEFAULT_ARCHIVE_MAX_ENTRIES;
+        return Math.max(1, Math.min(10000, parsed));
+    }
+
+    async loadPersistedData() {
+        this.archive = await this.readJsonArrayState("archive.json");
+        this.archive = this.archive.slice(0, this.cfg.archiveMaxEntries);
+        const active = await this.readJsonArrayState("archive.activeState");
+        this.activeMessages.clear();
+        for (const item of active) {
+            if (item && item.id && Number.isFinite(Number(item.startTs))) {
+                this.activeMessages.set(String(item.id), item);
+            }
+        }
+    }
+
+    async readJsonArrayState(id) {
+        try {
+            const state = await this.getStateAsync(id);
+            if (!state || !state.val) return [];
+            const parsed = JSON.parse(String(state.val));
+            return Array.isArray(parsed) ? parsed : [];
+        } catch {
+            return [];
+        }
+    }
+
+    addArchiveEvent(event, item) {
+        if (!this.cfg.archiveEnabled) return;
+        const timestamp = Date.now();
+        const entry = {
+            eventId: `${timestamp}-${item.id}-${event}`,
+            event,
+            ruleId: item.id,
+            ruleName: item.name,
+            text: item.text,
+            severity: item.severity || "info",
+            sourceId: item.sourceId,
+            sourceValue: item.sourceValue,
+            compareValue: item.compareValue,
+            timestamp,
+            startTs: item.startTs,
+            endTs: event === "gone" ? timestamp : null,
+            durationMs: event === "gone" ? Math.max(0, timestamp - Number(item.startTs || timestamp)) : null,
+        };
+        this.archive.unshift(entry);
+        if (this.archive.length > this.cfg.archiveMaxEntries) {
+            this.archive.length = this.cfg.archiveMaxEntries;
+        }
     }
 
     compareValues(left, right, operator, valueType) {
@@ -323,6 +416,55 @@ class Statusanzeigeliste extends utils.Adapter {
         await this.setStateAsync("json", JSON.stringify(items), true);
         await this.setStateAsync("info.activeCount", items.length, true);
         await this.setStateAsync("info.lastUpdate", new Date().toISOString(), true);
+        await this.setStateAsync("archive.activeState", JSON.stringify(items), true);
+        await this.publishArchive();
+    }
+
+    async publishArchive() {
+        const entries = this.archive.slice(0, this.cfg.archiveMaxEntries);
+        const lines = entries.map(entry => this.formatArchiveEntry(entry));
+        await this.setStateAsync("archive.text", lines.join("\n"), true);
+        await this.setStateAsync("archive.html", this.renderArchiveHtml(entries), true);
+        await this.setStateAsync("archive.json", JSON.stringify(entries), true);
+        await this.setStateAsync("archive.count", entries.length, true);
+    }
+
+    formatArchiveEntry(entry) {
+        const timestamp = new Date(entry.timestamp);
+        const state = entry.event === "gone" ? "GEGANGEN" : "GEKOMMEN";
+        const duration = entry.event === "gone" ? ` · Dauer ${this.formatDuration(entry.durationMs)}` : "";
+        return `${this.formatDate(timestamp)} ${this.formatTime(timestamp)} · ${state} · ${entry.text}${duration}`;
+    }
+
+    renderArchiveHtml(entries) {
+        if (!entries.length) {
+            return `<div class="${this.escapeHtml(this.cfg.rowClass)} empty">Archiv ist leer</div>`;
+        }
+        return entries.map(entry => {
+            const severity = this.escapeHtml(entry.severity || "info");
+            const event = entry.event === "gone" ? "gone" : "came";
+            const state = event === "gone" ? "GEGANGEN" : "GEKOMMEN";
+            const timestamp = new Date(entry.timestamp);
+            const duration = event === "gone" ? ` · Dauer ${this.formatDuration(entry.durationMs)}` : "";
+            const text = this.escapeHtml(`${this.formatDate(timestamp)} ${this.formatTime(timestamp)} · ${entry.text}${duration}`);
+            return `<div class="${this.escapeHtml(this.cfg.rowClass)} archive ${severity} archive-${event}" data-severity="${severity}" data-event="${event}"><span class="statusanzeigeliste-archive-event">${state}</span><span class="statusanzeigeliste-archive-text">${text}</span></div>`;
+        }).join("\n");
+    }
+
+    formatDuration(durationMs) {
+        let seconds = Math.max(0, Math.round(Number(durationMs || 0) / 1000));
+        const days = Math.floor(seconds / 86400);
+        seconds %= 86400;
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+        const parts = [];
+        if (days) parts.push(`${days}d`);
+        if (hours) parts.push(`${hours}h`);
+        if (minutes) parts.push(`${minutes}m`);
+        if (seconds || !parts.length) parts.push(`${seconds}s`);
+        return parts.join(" ");
     }
 
     formatMessage(item) {

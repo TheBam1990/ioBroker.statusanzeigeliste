@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "statusanzeigeliste",
-    "version": "0.1.4",
+    "version": "0.2.0",
     "news": {
+      "0.2.0": {
+        "en": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
+        "de": "Fuegt ein dauerhaftes Gekommen-/Gegangen-Meldungsarchiv mit einstellbarer Groesse und eigenem VIS-2-Archiv-Widget hinzu.",
+        "ru": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
+        "pt": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
+        "nl": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
+        "fr": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
+        "it": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
+        "es": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
+        "pl": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
+        "uk": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget.",
+        "zh-cn": "Add a persistent coming/going message archive with configurable size and a dedicated VIS-2 archive widget."
+      },
       "0.1.4": {
         "en": "Render the current widget value directly during template rendering for VIS-2.",
         "de": "Rendert den aktuellen Widget-Wert fuer VIS-2 direkt beim Template-Rendering.",
@@ -144,6 +157,8 @@
     "includeTime": false,
     "emptyText": "",
     "rowClass": "statusanzeigeliste-row",
+    "archiveEnabled": true,
+    "archiveMaxEntries": 500,
     "rules": []
   },
   "objects": [],

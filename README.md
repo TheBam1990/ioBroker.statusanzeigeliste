@@ -17,6 +17,8 @@ Statusanzeigeliste creates a compact status message list from configurable ioBro
 - Optional start date prefix.
 - Optional start time prefix.
 - Outputs HTML, plain text and JSON.
+- Persistent coming/going message archive.
+- Configurable maximum number of stored archive events.
 - Includes VIS/VIS-2 widgets so no manual string widget needs to be built.
 
 ## Outputs
@@ -32,6 +34,11 @@ The adapter creates these states:
 | `statusanzeigeliste.0.info.activeCount` | Number of active messages. |
 | `statusanzeigeliste.0.info.lastUpdate` | Last rebuild time. |
 | `statusanzeigeliste.0.info.lastError` | Last rule evaluation error. |
+| `statusanzeigeliste.0.archive.html` | Formatted message archive as HTML. |
+| `statusanzeigeliste.0.archive.text` | Message archive as plain text. |
+| `statusanzeigeliste.0.archive.json` | Structured archive events as JSON. |
+| `statusanzeigeliste.0.archive.count` | Number of currently stored archive events. |
+| `statusanzeigeliste.0.archive.clear` | Set to `true` to clear the archive. |
 
 ## Rule Model
 
@@ -57,6 +64,8 @@ If the condition is true, the configured message text appears in the list. If th
 | Show start time before message | Prepends the time when the message first became active. A space is inserted after it. |
 | Text if no message is active | Optional text shown when the list is empty. |
 | CSS class for message rows | CSS class used for generated HTML rows. Default: `statusanzeigeliste-row`. |
+| Enable message archive | Stores a `CAME` or `GONE` event for every status transition. |
+| Maximum archive entries | Limits the archive to 1 through 10,000 events. Oldest events are removed automatically. |
 
 If both date and time are enabled, the output looks like:
 
@@ -146,6 +155,16 @@ The widget uses CSS classes per message severity:
 
 You can override these classes in VIS if you need a project-specific design.
 
+### Archive Widget
+
+The widget set also contains **Statusanzeigeliste Archiv**. By default, it reads:
+
+```text
+statusanzeigeliste.0.archive.html
+```
+
+Every row shows whether a message came or went, its date, time and message text. Gone messages also show how long they were active. The archive and the start times of active messages survive adapter restarts.
+
 ## Notes
 
 - The first activation time is kept until the message disappears. If the same condition becomes active again later, a new start time is stored.
@@ -175,6 +194,13 @@ You can override these classes in VIS if you need a project-specific design.
 ### 0.1.4
 
 - Render the current widget value directly during VIS-2 template rendering.
+
+### 0.2.0
+
+- Add a persistent coming/going event archive.
+- Make the maximum archive size configurable.
+- Add the dedicated **Statusanzeigeliste Archiv** VIS/VIS-2 widget.
+- Provide HTML, plain-text and JSON archive outputs plus a clear state.
 
 ## License
 

@@ -40,6 +40,37 @@
     window.setTimeout(window.statusanzeigelisteUpdateWidgets, 250);
 </script>
 
+<script id="tplStatusanzeigelisteArchive"
+        type="text/ejs"
+        class="vis-tpl"
+        data-vis-prev='<div class="statusanzeigeliste-vis-preview">Archiv</div>'
+        data-vis-set="statusanzeigeliste"
+        data-vis-type="val"
+        data-vis-name="Archiv"
+        data-vis-attrs="oid/id,statusanzeigeliste.0.archive.html;title/text,Archiv;emptyText/text,Archiv ist leer;showTitle/checkbox,true">
+    <%
+        var archiveOid = String(data.oid || 'statusanzeigeliste.0.archive.html').replace(/\.val$/, '');
+        var archiveValue = '';
+        try {
+            if (typeof vis !== 'undefined' && vis.states && typeof vis.states.attr === 'function') {
+                archiveValue = vis.states.attr(archiveOid + '.val') || '';
+            }
+        } catch (e) {
+            archiveValue = '';
+        }
+    %>
+    <div class="vis-widget <%== this.data.attr('class') %>" id="<%= this.data.attr('wid') %>" style="width:<%= this.data.attr('width') %>;height:<%= this.data.attr('height') %>;">
+        <div class="statusanzeigeliste-widget statusanzeigeliste-archive-widget">
+            <% if (data.showTitle === 'true' || data.showTitle === true) { %>
+                <div class="statusanzeigeliste-title"><%= data.title || 'Archiv' %></div>
+            <% } %>
+            <div class="statusanzeigeliste-content" id="<%= this.data.attr('wid') %>_content" data-oid="<%= archiveOid %>" data-empty-text="<%= data.emptyText || 'Archiv ist leer' %>">
+                <%== window.statusanzeigelisteRenderValue(archiveValue, archiveOid, data.emptyText || 'Archiv ist leer') %>
+            </div>
+        </div>
+    </div>
+</script>
+
 <script id="tplStatusanzeigelisteList"
         type="text/ejs"
         class="vis-tpl"
